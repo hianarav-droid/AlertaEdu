@@ -20,7 +20,7 @@ let followups = [
   {student_id:"demo-2",reason:"Dificuldade de transporte",action:"Verificar transporte e acesso",review_date:"2026-10-30",status:"Em andamento"},
   {student_id:"demo-5",reason:"Dificuldade de aprendizagem",action:"Apoio pedagógico",review_date:"2026-10-29",status:"Em andamento"}
 ];
-let supabaseClient = null, user = null;
+let supabase = null, user = null;
 const pageNames = {
  dashboard:["Visão geral","Sinais para agir cedo, com escuta e acolhimento."],
  students:["Estudantes","Consulte dados fictícios e sinais que merecem revisão."],
