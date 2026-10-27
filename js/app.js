@@ -1,3 +1,4 @@
+(function () {
 /* Presença Inteligente — dados fictícios e integração opcional com Supabase */
 const $ = (id) => document.getElementById(id);
 const seedStudents = [
@@ -127,3 +128,5 @@ $("signup-btn").addEventListener("click",async()=>{
 });
 $("logout-btn").addEventListener("click",async()=>{if(supabase)await supabase.auth.signOut();user=null;updateAuthUI();});
 renderAll();initAuth();
+  })();
+  
