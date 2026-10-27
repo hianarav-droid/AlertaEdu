@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Presença Inteligente</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand"><span class="logo">✦</span><span>Presença<br>Inteligente</span></div>
+    <p class="tagline">Cuidar da frequência é cuidar de pessoas.</p>
+    <nav>
+      <button class="nav active" data-page="dashboard">▦ Visão geral</button>
+      <button class="nav" data-page="students">♙ Estudantes</button>
+      <button class="nav" data-page="attendance">✓ Frequência</button>
+      <button class="nav" data-page="followup">♡ Acompanhamento</button>
+      <button class="nav" data-page="about">ⓘ Sobre o projeto</button>
+    </nav>
+    <div class="side-bottom">PROTÓTIPO ESCOLAR<br>Dados fictícios</div>
+  </aside>
+  <main>
+    <header class="top">
+      <div><div class="eyebrow">Painel de acompanhamento</div><h1 id="page-title">Visão geral</h1><p id="page-subtitle">Sinais para agir cedo, com escuta e acolhimento.</p></div>
+      <span class="demo">MODO DEMONSTRAÇÃO</span>
+    </header>
+
+    <section id="auth-box" class="card auth">
+      <h2>Conectar ao banco de dados</h2>
+      <p id="auth-status">O site pode funcionar em modo local ou conectar ao Supabase quando configurado.</p>
+      <div class="auth-fields">
+        <input id="email" type="email" placeholder="E-mail de teste">
+        <input id="password" type="password" placeholder="Senha">
+        <button id="login-btn">Entrar</button><button id="signup-btn" class="secondary">Criar conta</button>
+        <button id="logout-btn" class="secondary hidden">Sair</button>
+      </div>
+      <p class="small muted">Use somente contas de teste. Não use informações reais de alunos nesta versão.</p>
+    </section>
+
+    <section id="dashboard" class="page active">
+      <div class="notice">ⓘ Alertas indicam necessidade de verificar a situação — não explicam sozinhos o motivo das faltas nem rotulam estudantes.</div>
+      <div class="metrics">
+        <article class="card"><span class="metric-label">Estudantes fictícios</span><strong class="metric" id="total">12</strong><span class="muted small">Base de demonstração</span></article>
+        <article class="card"><span class="metric-label">Frequência média</span><strong class="metric" id="average">88%</strong><span class="muted small">No período simulado</span></article>
+        <article class="card"><span class="metric-label">Precisam de atenção</span><strong class="metric" id="attention">3</strong><span class="muted small">Sinal preventivo</span></article>
+        <article class="card"><span class="metric-label">Acompanhamentos</span><strong class="metric" id="followup-total">2</strong><span class="muted small">Ações registradas</span></article>
+      </div>
+      <div class="columns">
+        <article class="card"><h2>Frequência por semana</h2><p class="muted small">Dados fictícios para demonstração</p><div id="weekly"></div></article>
+        <article class="card"><h2>Alertas para revisar</h2><p class="muted small">Visíveis à equipe autorizada</p><div id="alerts"></div><button class="secondary" data-goto="students">Ver estudantes</button></article>
+      </div>
+    </section>
+
+    <section id="students" class="page">
+      <div class="toolbar"><input id="student-search" placeholder="Buscar estudante..." aria-label="Buscar estudante"><select id="student-filter"><option value="all">Todos os níveis</option><option value="high">Atenção prioritária</option><option value="medium">Acompanhar</option><option value="ok">Estável</option></select></div>
+      <div class="card table-scroll"><table><thead><tr><th>Estudante</th><th>Turma</th><th>Frequência</th><th>Sinal</th><th>Ação</th></tr></thead><tbody id="student-rows"></tbody></table></div>
+    </section>
+
+    <section id="attendance" class="page">
+      <article class="card form-card"><h2>Registrar frequência</h2><p class="muted small">O registro é salvo no banco se estiver conectado e autenticado; caso contrário, fica nesta sessão.</p>
+        <label>Estudante<select id="attendance-student"></select></label>
+        <label>Data<input id="attendance-date" type="date"></label>
+        <label>Registro<select id="attendance-status"><option value="present">Presente</option><option value="absent">Falta</option></select></label>
+        <button id="save-attendance">Salvar registro</button><p id="attendance-message" class="muted small"></p>
+      </article>
+      <article class="card space-top"><h2>Registros desta sessão</h2><div id="attendance-log" class="stack"><p class="muted">Nenhum registro novo.</p></div></article>
+    </section>
+
+    <section id="followup" class="page">
+      <div class="columns">
+        <article class="card form-card"><h2>Novo acompanhamento</h2>
+          <label>Estudante<select id="follow-student"></select></label>
+          <label>Motivo relatado (exemplo)<select id="reason"><option>Dificuldade de transporte</option><option>Dificuldade de aprendizagem</option><option>Convivência ou bullying</option><option>Questões familiares</option><option>Saúde ou bem-estar</option><option>Motivo ainda não identificado</option><option>Prefere não informar</option></select></label>
+          <label>Ação combinada<select id="action"><option>Conversa com orientação escolar</option><option>Apoio pedagógico</option><option>Verificar transporte e acesso</option><option>Nova conversa de acompanhamento</option></select></label>
+          <label>Próxima revisão<input id="review-date" type="date"></label>
+          <button id="save-followup">Registrar acompanhamento</button><p id="followup-message" class="muted small"></p>
+        </article>
+        <article class="card"><h2>Acompanhamentos registrados</h2><div id="followup-list" class="stack"></div></article>
+      </div>
+    </section>
+
+    <section id="about" class="page">
+      <article class="card">
+        <div class="eyebrow">A ideia</div><h2>Tecnologia para perceber cedo. Pessoas para acolher.</h2>
+        <p>O Presença Inteligente organiza registros de frequência, sinaliza mudanças e ajuda a equipe escolar a planejar apoio antes que as faltas se acumulem.</p>
+        <h3>O que demonstra</h3><ul><li>Registro de frequência.</li><li>Indicadores e tendências.</li><li>Alertas preventivos por regras simples.</li><li>Registro de motivos relatados e ações de apoio.</li><li>Acompanhamento posterior.</li></ul>
+        <h3>Limites e responsabilidade</h3><ul><li>Não prevê o futuro nem diagnostica problemas pessoais.</li><li>Não deve punir ou expor estudantes.</li><li>Os alertas precisam de revisão humana.</li><li>Uma implantação real exigiria permissões por função, segurança e conformidade com a LGPD.</li></ul>
+      </article>
+    </section>
+    <footer>Protótipo para fins educacionais. Use apenas dados fictícios até que exista uma configuração de segurança adequada.</footer>
+  </main>
+</div>
+<div id="toast" class="toast" role="status"></div>
+</body></html>
